@@ -3,7 +3,7 @@
     <elevenlabs-convai id = "convai" agent-id="" dynamic-variables='{}'></elevenlabs-convai>
 
     <script>
-    
+
         const params = new URLSearchParams(window.location.search);
 
         const agent_id = params.get("agent_id");
@@ -42,4 +42,38 @@
     </script>
 
     <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+
+    <script>
+
+        window.startElevenLabsConversation = async function () {
+        const { startSession } = window.elevenlabsConvai; // do seu SDK
+
+        const session = await startSession({
+        agentId: "IFXy9IoBlFlKaVtWepyU",
+        dynamicVariables: {
+            country_origin: "Brazil",
+            explorer_name: "Luiz",
+            age: 10
+        },
+        onMessage: (message) => {
+            console.log("Mensagem recebida:", message);
+        },
+        onStateChange: (state) => {
+            console.log("Estado:", state);
+        }
+        });
+
+        // Opcionalmente armazena a sessão globalmente se quiser continuar conversas depois
+        window.convaiSession = session;
+    };
+
+    document.getElementById("btnTest").onclick = window.startElevenLabsConversation();
+
+    </script>
 </head>
+
+<body>
+
+    <button id ="btnTest">Test</button>
+
+</body>
