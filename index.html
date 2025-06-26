@@ -44,36 +44,56 @@
     <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
 
     <script>
+  function startConversation() {
+    const widget = document.querySelector("elevenlabs-convai");
 
-        window.startElevenLabsConversation = async function () {
-        const { startSession } = window.elevenlabsConvai; // do seu SDK
+    if (!widget || !widget.shadowRoot) {
+      console.error("Widget não encontrado ou não pronto.");
+      return;
+    }
 
-        const session = await startSession({
-        agentId: "IFXy9IoBlFlKaVtWepyU",
-        dynamicVariables: {
-            country_origin: "Brazil",
-            explorer_name: "Luiz",
-            age: 10
-        },
-        onMessage: (message) => {
-            console.log("Mensagem recebida:", message);
-        },
-        onStateChange: (state) => {
-            console.log("Estado:", state);
+    // Clica no botão do balão/flutuante
+    const micButton = widget.shadowRoot.querySelector('button[aria-label="Chat"]');
+    if (micButton) micButton.click();
+
+    // Aguarda o botão "Accept" aparecer e clica nele
+    setTimeout(() => {
+      const buttons = widget.shadowRoot.querySelectorAll('button');
+      let accepted = false;
+
+      for (let btn of buttons) {
+        if (btn.textContent.trim() === "Accept") {
+          btn.click();
+          accepted = true;
+          console.log("✅ Botão 'Accept' clicado");
+          break;
         }
-        });
+      }
 
-        // Opcionalmente armazena a sessão globalmente se quiser continuar conversas depois
-        window.convaiSession = session;
-    };
+      // Se aceitou, tenta clicar no botão de microfone depois
+      if (accepted) {
+        setTimeout(() => {
+          // Encontrar botão de microfone dentro do widget expandido
+          const micButton = [...widget.shadowRoot.querySelectorAll('button')].find(b =>
+            b.innerHTML.includes("microphone") || b.innerText.trim() === ""
+          );
+          if (micButton) {
+            micButton.click();
+            console.log("🎤 Botão de microfone clicado");
+          } else {
+            console.warn("❌ Botão de microfone não encontrado");
+          }
+        }, 1000); // ajuste esse delay se necessário
+      }
 
-    document.getElementById("btnTest").onclick = window.startElevenLabsConversation();
+    }, 1000); // delay para aceitar os termos
+  }
+</script>
 
-    </script>
 </head>
 
 <body>
 
-    <button id ="btnTest">Test</button>
+    <button onclick="startConversation()">Test</button>
 
 </body>
