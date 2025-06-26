@@ -1,0 +1,45 @@
+<head>
+
+    <elevenlabs-convai id = "convai" agent-id="" dynamic-variables='{}'></elevenlabs-convai>
+
+    <script>
+    
+        const params = new URLSearchParams(window.location.search);
+
+        const agent_id = params.get("agent_id");
+
+        // Access values
+        const country_origin = params.get("country_origin");
+        const country_curiosity = params.get("country_curiosity");
+        const lesson_context = params.get("lesson_context");
+        const explorer_name = params.get("explorer_name");
+        const age = params.get("age");
+
+        if (agent_id == null) agent_id = "IFXy9IoBlFlKaVtWepyU";
+        if (country_origin == null) country_origin = "Netherlands";
+        if (country_curiosity == null) country_curiosity = "Brazil";
+        if (lesson_context == null) lesson_context = "BRTC1L6";
+        if (explorer_name == null) explorer_name = "Explorer";
+        if (age == null) age = "8";
+
+        // Find the ElevenLabs element
+        const convaiEl = document.getElementById("convai");
+
+        // Build the dynamic-variables object
+        const dynamicVariables = {
+            country_origin,
+            country_curiosity,
+            lesson_context,
+            explorer_name,
+            age
+        };
+        
+
+        // Set the attribute as a JSON string
+        convaiEl.setAttribute("dynamic-variables", JSON.stringify(dynamicVariables));
+        convaiEl.setAttribute("agent-id", agent_id);
+
+    </script>
+
+    <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+</head>
