@@ -103,17 +103,17 @@
       switch(statusArea.innerHTML)
       {
         case "Talk to interrupt":
-          message = 'unity://audioRunning';
+          message = 'audioRunning';
           break;
         case "Connecting":
-          message= 'unity://audioConnecting';
+          message= 'audioConnecting';
           break;
         case "Listening":
-          message = 'unity://audioStopped';
+          message = 'audioStopped';
           break;
       }
 
-      window.postMessage(message);
+      Unity.call(message);
 
     }
   }, 50);
