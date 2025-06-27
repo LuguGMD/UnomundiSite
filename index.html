@@ -48,7 +48,7 @@
     }
 
     // Clica no botão do balão/flutuante
-    const micButton = widget.shadowRoot.querySelector('button[aria-label="Chat"]');
+    const micButton = widget.shadowRoot.querySelector('button[aria-label="Start a call"]');
     if (micButton) micButton.click();
 
     // Aguarda o botão "Accept" aparecer e clica nele
@@ -113,7 +113,10 @@
           break;
       }
 
-      Unity.call(message);
+      if(typeof Unity !== "undefined")
+      {
+          Unity.call(message);
+      }
 
     }
   }, 50);
